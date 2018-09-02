@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Boltzmann distribution</title>
+
+    <!-- Stylesheet(s) -->
+    <link href="css/stylesheet.css" type="text/css" rel="stylesheet"/>
+
+    <!-- jQuery + jQuery UI -->
+    <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+
+    <script type="text/javascript" src="js/jquery-ui-1.10.4.min.js"></script>
+
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/jquery.ui.theme.css"/> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css"/> -->
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> -->
+
+    <!-- flot plotting lib -->
+    <script type="text/javascript" src="js/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="js/flot/jquery.flot.tooltip.js"></script>
+    <script language="javascript" type="text/javascript" src="js/flot/jquery.flot.axislabels.js"></script>
+
+    <!-- color mapping library-->
+    <script language="javascript" type="text/javascript" src="js/RainbowVis-JS-master/rainbowvis.js"></script>
+
+    <!-- mathJS lib -->
+    <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjs/0.20.0/math.min.js"></script> -->
+
+    <!-- Globalize -->
+    <script type="text/javascript" src="js/globalize.js"></script>
+
+    <!-- math jax -->
+    <script type="text/javascript"
+            src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    <!-- my JavaScript -->
+    <script src="js/script.js" type="text/javascript"></script>
+
+    <!-- Google analytics -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-10450179-2', 'boltzmannheat.se');
+        ga('send', 'pageview');
+
+    </script>
+
+</head>
+
+<body>
+
+    <div id="header" class="header">
+         <h2>boltzmann<span id="heat">heat</span> </h2>
+        <p class="header">a thermodynamics web lab</p>
+
+        <div id="boltzmann" onclick="window.location ='http://en.wikipedia.org/wiki/Ludwig_Boltzmann';"></div>
+    </div>
+
+
+
+
+
+    <div id="content">
+
+
+
+        <!-- ---------------------------------------------------- -->
+        <!-- LEFT PANEL -->
+        <!-- ---------------------------------------------------- -->
+        <div id="leftPanel" class="Panel">
+
+            <!-- TAB DEF-->
+            <div id="tabsLeft" class="tabs-min">
+                <ul>
+                    <li><a href="#settingsLeft">E-levels</a></li>
+                    <li><a href="#plotOptionsLeft">Plot</a></li>
+                    <li><a href="#dataLeft">Data</a></li>
+                </ul>
+
+
+                <!-- SETTINGS TAB-->
+                <div id="settingsLeft">
+
+                            <div class="floatLeft">
+
+                                <p class="info">
+                                    Number of particles:</p>
+
+                                <p class="info "> Energy level type </p>
+
+                                <p class="info" id="p-EDistLeft">
+                                    Distance between <br> energy  levels (dE/kb) </p>
+
+                                <p class="info" id="p-numSubLevLeft">
+                                    Number of sublevels:
+                                </p>
+
+                                <p class="info" id="p-distSubLevLeft">
+                                    Distance between <br> sub levels (dE/kb)
+
+                                </p>
+
+                                <p class="info" id="p-molLeft">
+                                    Molecule
+                                </p>
+
+
+                            </div>
+
+
+                            <div class="floatRight">
+
+
+                                <p class="extraMargin" >
+                                    <input id="spinnerNumParticlesLeft" class="spinner">
+                                    mol
+                                </p>
+
+                                <p class="extraMargin">
+                                <select name="selectionElevelField" id="selectionELevLeft">
+                                    <option value="equidistant"> Equidistant </option>
+                                    <option value="sublevel" > Sublevels </option>
+                                    <option value="rotational"> Rotational </option>
+                                </select>
+                                </p>
+
+                                <p class="extraMargin" id="s-EDistLeft">
+                                    <input id="spinnerEDistLeft" class="spinner extraMargin">
+                                    K
+                                </p>
+
+                                <p class="extraMargin" id="s-numSubLevLeft">
+                                    <input id="spinnerNumSubLevLeft" class="spinner">
+                                </p>
+
+                                <p class="extraMargin" id="s-distSubLevLeft">
+                                    <input id="spinnerSubEDistLeft" class="spinner">
+                                    K
+                                </p>
+
+                                <p class="extraMargin" id="s-molLeft">
+                                    <select name="selectionMoleculeField" id="selectionMoleculeLeft">
+                                        <option value="1"> Br&#8322;, &#920;&#7523;&#8338;&#8348; = 0.116 K </option>
+                                        <option value="2" > O&#8322;, &#920;&#7523;&#8338;&#8348; = 2.07 K </option>
+                                        <option value="3"> HCl, &#920;&#7523;&#8338;&#8348; = 15.02 K </option>
+                                        <option value="4"> H&#8322;, &#920;&#7523;&#8338;&#8348; = 85.3 K </option>
+                                    </select>
+                                </p>
+
+
+                            </div>
+
+                    <!-- the clearing element -->
+                    <div style="clear:both; float:none"></div>
+
+
+                </div>
+
+
+                <!-- -->
+                <div id="plotOptionsLeft">
+
+                    <p>
+                        Plot relative first level:
+                        <input type="checkbox" name="plotRelLeft" value="relativeLeft">
+                    </p>
+
+                    <p>
+                        Plot E-levels:
+                        <input type="checkbox" checked="checked" name="plotElevLeft" value="ElevLeft">
+                    </p>
+
+                    <p>
+                        y max: <input class="textField" type="text" name="ymaxLeft" value="200"> <br>
+                        x max: <input class="textField" type="text" name="xmaxLeft" value="1">
+                    </p>
+
+                </div>
+
+                <!-- DATA TAB-->
+                <div id="dataLeft" class="infoPanel">
+                    <p> U/k (particle): <span id="UparticleLeft"></span> K  </p>
+                    <p> U (tot): <span id="UtotLeft"></span> kJ  </p>
+                    <p> U (molar): <span id="UMolarLeft"></span> kJ/mol  </p>
+
+                    <p> S/k (particle): <span id="SparticleLeft"></span> K  </p>
+                    <p> S (tot): <span id="StotLeft"></span> J/K  </p>
+                    <p> S (molar): <span id="SMolarLeft"></span> J/(K mol)  </p>
+
+                    <p> q: <span id="qLeft"></span>  </p>
+
+                </div>
+                <!-- the clearing element -->
+                <div style="clear:both; float:none"></div>
+
+             </div>
+
+            <!-- Temp settings -->
+            <div class="tempPanel">
+            <p class="temp tempCol">Temperature</p>
+            <div id="sliderLeft" class="slider"></div>
+
+            <p class="temp">
+                <input id="spinnerLeft" class="spinner">
+                K
+            </p>
+            </div>
+
+            <!-- left plot -->
+            <div class="container" class="Panel">
+                <p class="plotTitle">SYSTEM A</p>
+                <p class="yaxisLabel">Energy (Ei / k<sub>B</sub>) / T<sup>-1</sup></p>
+                <div id="flotLeftPlaceholder"></div>
+                <p class="xaxisLabel"> population </p>
+            </div>
+
+        </div>
+
+        <!-- ---------------------------------------------------- -->
+        <!-- MID PANEL -->
+        <!-- ---------------------------------------------------- -->
+
+
+        <div id="conLeft" class="test testLeft"></div>
+
+        <div id="midPanel" class="midPanel">
+
+            <p class="tempCol">Heat Flow </p>
+
+            <div id="btnTestLeft"></div>
+
+            <div id="heatpipe"></div>
+
+            <div id="btnTestRight"></div>
+
+            <input id="spinnerETrans" class="spinner"> <p class="transE">kJ </p>
+
+            <p><br></p>
+
+            <p class="transE">Total entropy: <br> <span id="totEntropy">0</span> J/K</p>
+        </div>
+
+        <div id="conRight" class="test testRight"></div>
+
+
+
+        <!-- ---------------------------------------------------- -->
+        <!-- RIGHT PANEL -->
+        <!-- ---------------------------------------------------- -->
+        <div id="rightPanel" class="Panel">
+        <!-- TAB DEF-->
+        <div id="tabsRight" class="tabs-min">
+            <ul>
+                <li><a href="#settingsRight">E-levels</a></li>
+                <li><a href="#plotOptionsRight">Plot</a></li>
+                <li><a href="#dataRight">Data</a></li>
+            </ul>
+
+
+            <!-- SETTINGS TAB-->
+            <div id="settingsRight">
+
+                <div class="floatLeft">
+
+                    <p class="info">
+                        Number of particles:</p>
+
+                    <p class="info "> Energy level type </p>
+
+                    <p class="info" id="p-EDistRight">
+                        Distance between <br> energy  levels (dE/kb) </p>
+
+                    <p class="info" id="p-numSubLevRight">
+                        Number of sublevels:
+                    </p>
+
+                    <p class="info" id="p-distSubLevRight">
+                        Distance between <br> sub levels (dE/kb)
+
+                    </p>
+
+                    <p class="info" id="p-molRight">
+                        Molecule
+                    </p>
+
+
+                </div>
+
+
+                <div class="floatRight">
+
+
+                    <p class="extraMargin" >
+                        <input id="spinnerNumParticlesRight" class="spinner">
+                        mol
+                    </p>
+
+                    <p class="extraMargin">
+                        <select name="selectionElevelField" id="selectionELevRight">
+                            <option value="equidistant"> Equidistant </option>
+                            <option value="sublevel" > Sublevels </option>
+                            <option value="rotational"> Rotational </option>
+                        </select>
+                    </p>
+
+                    <p class="extraMargin" id="s-EDistRight">
+                        <input id="spinnerEDistRight" class="spinner extraMargin">
+                        K
+                    </p>
+
+                    <p class="extraMargin" id="s-numSubLevRight">
+                        <input id="spinnerNumSubLevRight" class="spinner">
+                    </p>
+
+                    <p class="extraMargin" id="s-distSubLevRight">
+                        <input id="spinnerSubEDistRight" class="spinner">
+                        K
+                    </p>
+
+                    <p class="extraMargin" id="s-molRight">
+                        <select name="selectionMoleculeField" id="selectionMoleculeRight">
+                            <option value="1"> Br&#8322;, &#920;&#7523;&#8338;&#8348; = 0.116 K </option>
+                            <option value="2" > O&#8322;, &#920;&#7523;&#8338;&#8348; = 2.07 K </option>
+                            <option value="3"> HCl, &#920;&#7523;&#8338;&#8348; = 15.02 K </option>
+                            <option value="4"> H&#8322;, &#920;&#7523;&#8338;&#8348; = 85.3 K </option>
+                        </select>
+                    </p>
+
+
+                </div>
+
+                <!-- the clearing element -->
+                <div style="clear:both; float:none"></div>
+
+
+            </div>
+
+            <!-- -->
+                <div id="plotOptionsRight">
+
+                    <p>
+                        Plot relative first level:
+                        <input type="checkbox" name="plotRelRight" value="relativeLeft">
+                    </p>
+
+                    <p>
+                        Plot E-levels:
+                        <input type="checkbox" checked="checked" name="plotElevRight" value="ElevRight">
+                    </p>
+
+                    <p>
+                        y max: <input class="textField" type="text" name="ymaxRight" value="200"> <br>
+                        x max: <input class="textField" type="text" name="xmaxRight" value="1">
+                    </p>
+
+                </div>
+
+                <!-- DATA TAB-->
+                <div id="dataRight" class="infoPanel">
+                    <p> U/k (particle): <span id="UparticleRight"></span> K  </p>
+                    <p> U (tot): <span id="UtotRight"></span> kJ  </p>
+                    <p> U (molar): <span id="UMolarRight"></span> kJ/mol  </p>
+
+                    <p> S/k (particle): <span id="SparticleRight"></span> K  </p>
+                    <p> S (tot): <span id="StotRight"></span> J/K  </p>
+                    <p> S (molar): <span id="SMolarRight"></span> J/(K mol)  </p>
+
+                    <p> q: <span id="qRight"></span>  </p>
+
+                </div>
+                <!-- the clearing element -->
+                <div style="clear:both; float:none"></div>
+
+            </div>
+
+            <!-- Temp settings -->
+            <div class="tempPanel">
+                <p class="temp tempCol">Temperature</p>
+                <div id="sliderRight" class="slider"></div>
+
+                <p class="temp">
+                    <input id="spinnerRight" class="spinner">
+                    K
+                </p>
+            </div>
+
+            <!-- right plot -->
+            <div class="container" class="Panel">
+                <p class="plotTitle">SYSTEM B</p>
+                <p class="yaxisLabel">Energy (Ei / k<sub>B</sub>) / T<sup>-1</sup></p>
+                <div id="flotRightPlaceholder"></div>
+                <p class="xaxisLabel"> population </p>
+            </div>
+
+        </div>
+
+
+        <!-- INSTRUCTIONS TAB -->
+        <div id="slideout">
+
+            <div id="clickme">
+                INSTRUCTIONS
+            </div>
+
+            <div id="slidecontent">
+
+                <div id="instr1" class="instructions">
+
+                    <h4 class="instrHead"> Welcome to the <span class="fat2">boltzmannheat</span> <br> web lab </h4>
+
+                    <br>
+                    With the help of this web app, we will explore the conecepts <span class="fat">entropy</span>, <span class="fat">temperature</span>, <span class="fat"> heat capacity</span> and <span class="fat">thermal equilibrium</span>.
+                    <br>
+
+                    <br>
+                    We will learn about the <span class="fat"> Boltzmann distribution </span> for a system and the effect of <span class="fat"> heat flow </span> between two systems.
+                </div>
+
+                <div id="instr2" class="instructions">
+                    <h4 class="instrHead"> Background</h4>
+                    <em><span class="fat">The systems</span></em> <br>
+                    To your right, two systems are represented: <span class="fat">A</span>(left) and <span class="fat">B</span> (right). In each you can define the distance between energy levels and plot the Boltzmann distribution at a given temperature that is set either using the slider or the spinner wheel of each system.
+                    <br>
+                    <br>
+                    Given these system properties, the total molar and entropy per particle will be  calculated and shown in the data tab, as will the corresponding total, molar and energy per particle. Also, the partition function q will be calculated and displayed.
+                    <br>
+                    <br>
+                    In this lab setup, all energy is supplied as heat (no pressure-volumework), i.e the volume V of the systems is constant.
+                    <br>
+                </div>
+
+                <div id="instr3" class="instructions">
+                    <h4 class="instrHead"> Background</h4>
+                    <em><span class="fat">Populations</span></em> <br>
+                    The populations (i.e. the probability to find a particle with eneergy Ei) is given by the Boltzmann distribution:
+                    <script type="math/tex; mode=display" id="MathJax-Element-1"> p_{i} = p(E_{i}) = \frac{g_{i} \, exp\Bigl(-\frac{E_{i}}{k_B T}\Bigr)} {q} </script>
+
+                    where q is the partition function:
+
+                    <script type="math/tex; mode=display" id="MathJax-Element-2">  q = \sum_{i} g_{i} \, exp\Bigl(-\frac{E_{i}}{k_B T}\Bigr)  </script>
+
+                    This is the effective number of states that are accessible to the system at given temperature. Notice the limit when T -> 0, q -> g1, the system can only populate the first energy level.
+
+                    <br>
+
+                </div>
+
+                <div id="instr4" class="instructions">
+                    <h4 class="instrHead"> Background</h4>
+                    <em><span class="fat">Energies, entropy and units</span></em> <br>
+                    The total energy per particle is given by
+                    <script type="math/tex; mode=display" id="MathJax-Element-3"> U_{particle} = \sum_{i} E_{i} \, p_{i} </script>
+
+                    and the total entropy by:
+                    <script type="math/tex; mode=display" id="MathJax-Element-4"> S_{particle} = - k_{B} \sum_{i} p_{i} \, ln(p_{i}) </script>
+
+                    The energy levels have units in K which is obtained by dividing the energy by the Boltzmann constant k<sub>B</sub>. This is handy as it gives a feeling if the temperature of the system is low or high relative a given energy level. Similarly, the entropy per particle is presented as <script type="math/tex" id="MathJax-Element-5"> S_{particle} / k_{B} = -\sum_{i} p_{i} ln \, p{i} </script>
+
+                    <br>
+
+
+                </div>
+
+                <div id="instr5" class="instructions">
+                    <h4 class="instrHead"> Background</h4>
+                    <em><span class="fat">Energies, entropy and units</span></em> <br>
+
+                    For the macroscopic properties we assume that the particles are <em>distinguishable</em>, i.e. we can identify each and evry one by their position on a fixed grid for instance. Then total energy is simply
+
+                    <script type="math/tex; mode=display" id="MathJax-Element-6"> U_{tot} = N U_{particle} </script>
+
+                    and the total entropy
+
+                    <script type="math/tex; mode=display" id="MathJax-Element-7"> S_{tot} = N S_{particle} </script>
+
+                    where N is the number of particles. These quantities are however presented in their typical units of J (energy) and J/K (entropy).
+
+                </div>
+
+                <div id="instr6" class="instructions">
+                <h4 class="instrHead"> Task 1</h4>
+                    <em><span class="fat">Temperature, energy and entropy relations</span></em>
+                    <br>
+                    Create two systems. In system A, choose equidistant energy levels with spacing 100 K. For system B, choose equidistant energy levels with spacing 200 K. Use the default number of particles, 1 mol.
+
+                    a) Increase the temperature so that both systems have roughly the same total energy U<sub>tot</sub>
+                    (a) Oka
+                    temperaturen så att båda systemen får ungef ̈ar lika total energi U tot .
+                    Vilket av systemen har h ogst
+                    entropi? Vilket har h ogst
+                    temperatur? F ors
+                    ̈
+                    ̈
+                    ̈ ok
+                    ̈
+                    att f orklara
+                    varf or!
+                    ̈
+                    ̈
+                    Med detta reglage regleras systemets
+                    temperatur. Genom klick på pilarna
+                    g ors
+                    ̈ en liten a  ̈ ndring och genom klick
+                    på “listen” g ors
+                    a  ̈ ndring.
+                    ̈ en st orre
+                    ̈
+                    (b) Låt nu båda systemen få lika temperatur, t.ex. 100 K. Vad a  ̈ r nu entropin
+                    och energin i de båda systemen?
+                    (c) J ̈amf or
+                    ̈ nu kvoten p(E i )/p 0 f or
+                    ̈ båda systemen från uppgift (b) med varand-
+                    ra, dvs v ̈alj ut en energinivå (t.ex. E i = 100 K) och ber ̈akna kvoten mellan
+                    populationen i den nivån och populationen i den l ̈agsta nivån. Detta a  ̈ r
+                    enkelt att g ora
+                    ̈ genom att markera alternativet “relative first level” i pro-
+                    grammet. G or
+                    ̈ detta f or
+                    ̈ några olika energinivåer E i . J ̈amf or
+                    ̈ systemen A
+                    och B med varandra. Vad finner du? Kan du formulera din uppt ̈ackt till
+                    en princip om vad som g ̈aller vid termisk j ̈amvikt mellan två system?
+
+
+                </div>
+
+                <div id="instrBtns">
+
+                    <div id="PrevInstr" class="instrBtn"> Prev </div>
+                    <div id="NextInstr" class="instrBtn"> Next </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <div id="footer">
+
+        <p class="footerAboutLeft">
+            Created by <a href="http://www.cmps.lu.se/bpc/people/filip_persson/">Filip Persson</a>
+            <br>
+            Based on <a href="http://www.cmps.lu.se/fileadmin/mps/Education/BPC/program/BoltzmannHeat.zip"> Matlab version </a> by <a href="http://www.cmps.lu.se/bpc/people/kristofer_modig/">Kristofer Modig</a>
+        </p>
+
+        <p class="footerAboutRight"> Powered by JavaScript and the jQuery framework </p>
+
+
+
+    </div>
+</body>
+</html>
